@@ -2,48 +2,46 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-
 public class AnimatedSprite : MonoBehaviour
-{   
-    
-    public SpriteRenderer sr { get; private set; }
-    public Sprite[] sprites;
-
-    public float animationTime = .25f;
-    public int animationFrame{ get; private set; }
-
+{
+    public SpriteRenderer spriteRenderer { get; private set; }
+    public Sprite[] sprites = new Sprite[0];
+    public float animationTime = 0.25f;
+    public int animationFrame { get; private set; }
     public bool loop = true;
-    
-    private void Awake() 
+
+    private void Awake()
     {
-        this.sr = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Start() {
-        InvokeRepeating(nameof(Advance), this.animationTime, this.animationTime);
+    private void Start()
+    {
+        InvokeRepeating(nameof(Advance), animationTime, animationTime);
     }
 
     private void Advance()
     {
-        if(!this.sr.enabled)
-        {
+        if (!spriteRenderer.enabled) {
             return;
         }
 
-        this.animationFrame++;
-        if(this.animationFrame>= this.sprites.Length && this.loop)
-        {
-            this.animationFrame = 0;
+        animationFrame++;
+
+        if (animationFrame >= sprites.Length && loop) {
+            animationFrame = 0;
         }
-        if(this.animationFrame >= 0 && this.animationFrame < this.sprites.Length)
-        {
-            this.sr.sprite = this.sprites[this.animationFrame];
+
+        if (animationFrame >= 0 && animationFrame < sprites.Length) {
+            spriteRenderer.sprite = sprites[animationFrame];
         }
     }
+
     public void Restart()
     {
-        this.animationFrame = -1;
-        Advance();
+        animationFrame = -1;
 
+        Advance();
     }
+
 }
