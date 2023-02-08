@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public AudioClip powerPelletSound;
     public AudioClip ghostHit;
+    public AudioClip pacmanDeath;
 
     public AudioSource audioSource;
 
@@ -86,6 +87,8 @@ public class GameManager : MonoBehaviour
     {
         pacman.DeathSequence();
 
+        OneShot(pacmanDeath);
+
         SetLives(lives - 1);
 
         if (lives > 0) {
@@ -106,6 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void PelletEaten(Pellet pellet)
     {
+        Debug.Log(score);
         pellet.gameObject.SetActive(false);
 
         SetScore(score + pellet.points);
