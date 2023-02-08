@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     public int score { get; private set; }
     public int lives { get; private set; }
 
+    public AudioClip powerPelletSound;
+    public AudioClip ghostHit;
+
+    public AudioSource audioSource;
+
     private void Start()
     {
         NewGame();
@@ -96,6 +101,7 @@ public class GameManager : MonoBehaviour
         SetScore(score + points);
 
         ghostMultiplier++;
+        OneShot(ghostHit);
     }
 
     public void PelletEaten(Pellet pellet)
@@ -120,6 +126,7 @@ public class GameManager : MonoBehaviour
         PelletEaten(pellet);
         CancelInvoke(nameof(ResetGhostMultiplier));
         Invoke(nameof(ResetGhostMultiplier), pellet.duration);
+        OneShot(powerPelletSound);
     }
 
     private bool HasRemainingPellets()
@@ -137,6 +144,11 @@ public class GameManager : MonoBehaviour
     private void ResetGhostMultiplier()
     {
         ghostMultiplier = 1;
+    }
+
+    private void OneShot(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip, 0.5f);
     }
 
 }
